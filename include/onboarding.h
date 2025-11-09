@@ -9,9 +9,9 @@ struct user {
     int pin[10];
 };
 
-void create_account();
+void create_acc();
 void login();
-void gen_acc();
+int gen_acc();
 void save_user();
 int user_exists();
 

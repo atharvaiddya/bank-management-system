@@ -1,11 +1,16 @@
 #include "onboarding.h"
 #include<stdio.h>
 
-void gen_acc(){
-    FILE *pF = fopen("data/last_acc.txt", "r");
+int gen_acc(){
+    FILE *fp = fopen("data/last_acc.txt", "r");
     int buffer;
-    fscanf(pF, "%d", &buffer);
-    fclose(pF);
+    fscanf(fp, "%d", &buffer);
+    printf("Your account number is: %d", buffer);
+    fclose(fp);
+    fp = fopen("data/last_acc.txt", "w");
+    fprintf(fp, "%d", buffer+1);
+    fclose(fp);
+    return buffer;
 }
 
 void create_acc(){
@@ -36,6 +41,7 @@ void create_acc(){
             break;
         }
     }
+    u.accno = gen_acc();
 }
 
 void login(){
