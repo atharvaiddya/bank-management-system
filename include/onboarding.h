@@ -6,7 +6,7 @@ struct user {
     char name[50];
     char email[50];
     char occupation[50];
-    int pin[10];
+    int pin;
 };
 
 void create_acc();

@@ -1,4 +1,4 @@
-#include "onboarding.h"
+#include "../include/onboarding.h"
 #include<stdio.h>
 
 int gen_acc(){
@@ -15,7 +15,7 @@ int gen_acc(){
 
 void create_acc(){
     struct user u;
-    int confirm;
+    int confirm, confpin;
     while(1){
         printf("Enter your first name: ");
         scanf("%s", u.name);
@@ -25,10 +25,34 @@ void create_acc(){
 
         printf("Enter your occupation: ");
         scanf("%s", u.occupation);
+        
+        printf("Set your 4 digit PIN: ");
+        scanf("%d", &u.pin);
+        
+        while(u.pin < 1000 || u.pin > 9999){
+            if(u.pin >= 1000 && u.pin <= 9999){
+                break;
+            }
+            else{
+                printf("Invalid PIN. Try again: ");
+                scanf("%d", &u.pin);
+            }
+        }
+        
+        printf("Confirm PIN: ");
+        scanf("%d", &confpin);
 
-        printf("Set your PIN: ");
-        scanf("%s", u.pin);
-
+        while(1){
+            if(confpin == u.pin){
+                printf("PIN set successfully.");
+                break;
+            }
+            else{
+                printf("PIN does not match. Confirm PIN: ");
+                scanf("%d", &confpin);
+            }
+        }
+        
         printf("Please carefully check that the credentials you've entered are correct:\n"
                "Name      : %s\n"
                "Email ID  : %s\n"
@@ -42,8 +66,30 @@ void create_acc(){
         }
     }
     u.accno = gen_acc();
+
+    char filename[100];
+    sprintf(filename, "data/users/%d.txt", u.accno);
+    
+    FILE *fp = fopen(filename, "w");
+    fprintf(fp, "Name: %s\nEmail: %s\nOccupation: %s\nPIN: %d", 
+        u.name, u.email, u.occupation, u.pin);
+    fclose(fp);
+
 }
 
 void login(){
+    struct user u;
+
+    printf("Enter your account number: ");
+    scanf("%d", &u.accno);
+    char filename[100];
+    sprintf(filename, "data/users/%d.txt", u.accno);
+    FILE *fp = fopen(filename, "r");
+     if (fp == NULL) {
+        printf("Account not found.\n");
+        return;
+    }
+    char buffer[255];
+    fclose(fp);
 
 }
